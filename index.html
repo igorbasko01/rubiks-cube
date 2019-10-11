@@ -1,0 +1,87 @@
+<canvas id="canvas" width="800" height="800"></canvas>
+
+<script type="text/javascript" src="cube.js"></script>
+<script>
+
+  //TODO: Enable custom cube coloring with mouse click. 1-6 color selection.
+  //TODO: Add moves logging, download.
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  var selected_color = 'red';
+
+  const cube = new Cube();
+  draw();
+
+  window.addEventListener("keydown", function(event) {
+      if(event.defaultPrevented) {
+          return;
+      }
+
+      switch(event.code) {
+          case "KeyA":
+          cube.rotateFace(0, false);
+          break;
+          case "KeyS":
+          cube.rotateFace(0, true);
+          break;
+          case "KeyD":
+          cube.rotateFace(1, false);
+          break;
+          case "KeyF":
+          cube.rotateFace(1, true);
+          break;
+          case "KeyG":
+          cube.rotateFace(2, false);
+          break;
+          case "KeyH":
+          cube.rotateFace(2, true);
+          break;
+          case "KeyJ":
+          cube.rotateFace(3, false);
+          break;
+          case "KeyK":
+          cube.rotateFace(3, true);
+          break;
+          case "KeyE":
+          cube.rotateFace(4, false);
+          break;
+          case "KeyR":
+          cube.rotateFace(4, true);
+          break;
+          case "KeyC":
+          cube.rotateFace(5, false);
+          break;
+          case "KeyV":
+          cube.rotateFace(5, true);
+          break;
+      }
+
+      draw();
+  });
+
+  function getCursorPosition(canvas, event) {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      return [x, y];
+  }
+
+  canvas.addEventListener('mousedown', function(e) {
+      getCursorPosition(canvas, e);
+  })
+
+  function drawLegend(ctx, x, y, selected_color) {
+      // Draw selected color
+      ctx.setLineDash([]);
+      ctx.fillStyle = selected_color;
+      ctx.fillRect(x, y, 20, 20);
+      ctx.strokeRect(x, y, 20, 20);
+      
+  }
+
+  function draw() {
+      cube.drawCube(ctx, 10, 10);
+      drawLegend(ctx, 300, 10, selected_color);
+  }
+</script>

@@ -3,7 +3,6 @@
 <script type="text/javascript" src="cube.js"></script>
 <script>
 
-  //TODO: Enable custom cube coloring with mouse click. 1-6 color selection.
   //TODO: Add moves logging, download.
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
@@ -75,7 +74,10 @@
   }
 
   canvas.addEventListener('mousedown', function(e) {
-      getCursorPosition(canvas, e);
+      var pos = getCursorPosition(canvas, e);
+
+      cube.setColor(10, 10, pos[0], pos[1], selected_color);
+      draw();
   })
 
   function drawLegend(ctx, x, y, selected_color) {

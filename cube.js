@@ -6,6 +6,7 @@ class Cube {
         this.colors = ['red', 'blue', 'orange', 'green', 'white', 'yellow'];
         this.cube = this.initCube();
         this.CELL_SIZE = 20;
+        this.FACE_SIZE = this.CELL_SIZE * 3;
     }
 
     initCube() {
@@ -24,14 +25,17 @@ class Cube {
     }
 
     drawCube(ctx, x, y) {
-        const FACE_SIZE = this.CELL_SIZE * 3;
-
-        for (var f = 0; f < 4; f++) {
-            this.drawFace(ctx, f, x + (f * FACE_SIZE), y + FACE_SIZE);
+        for (var f = 0; f < this.colors.length; f++) {
+            var loc = this.determineFaceLocation(f, x, y);
+            this.drawFace(ctx, f, loc[0], loc[1]);
         }
+    }
 
-        this.drawFace(ctx, 4, x + (1 * FACE_SIZE), y);
-        this.drawFace(ctx, 5, x + (1 * FACE_SIZE), y + (2 * FACE_SIZE));
+    determineFaceLocation(face, x, y) {
+        return face < 4 ? [x + (face * this.FACE_SIZE), y + this.FACE_SIZE] :
+            face == 4 ?
+            [x + this.FACE_SIZE, y] :
+            [x + this.FACE_SIZE, y + (2 * this.FACE_SIZE)]
     }
 
     drawFace(ctx, face, x, y) {
@@ -101,5 +105,28 @@ class Cube {
 
     getColumn(face, i) {
         return [face[0][i],face[1][i],face[2][i]];
+    }
+
+    setColor(orig_left, orig_top, x, y, color) {
+        var found_face = null;
+
+        for (var f = 0; f < this.colors.length; f++) {
+            var pos = this.determineFaceLocation(f, orig_left, orig_top);
+            if ((x >= pos[0] && x <= pos[0] + this.FACE_SIZE) &&
+                (y >= pos[1] && y <= pos[1] + this.FACE_SIZE)) {
+                found_face = f;
+                break;
+            }
+        }
+
+        if (found_face != null) {
+            var i = Math.floor((y - pos[1]) / this.CELL_SIZE);
+            var j = Math.floor((x - pos[0])  / this.CELL_SIZE);
+
+            if (i == 1 && j == 1)
+                return;  // Don't change center cell.
+
+            this.cube[f][i][j] = color;
+        }
     }
 }

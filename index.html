@@ -8,9 +8,8 @@
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 
-  var selected_color = 'red';
-
   const cube = new Cube();
+  var selected_color = 'red';
   draw();
 
   window.addEventListener("keydown", function(event) {
@@ -19,6 +18,14 @@
       }
 
       switch(event.code) {
+          case "Digit1":
+          case "Digit2":
+          case "Digit3":
+          case "Digit4":
+          case "Digit5":
+          case "Digit6":
+          selected_color = cube.colors[Number(event.code.slice(-1))-1];
+          break;
           case "KeyA":
           cube.rotateFace(0, false);
           break;
@@ -77,10 +84,45 @@
       ctx.fillStyle = selected_color;
       ctx.fillRect(x, y, 20, 20);
       ctx.strokeRect(x, y, 20, 20);
-      
+      ctx.fillStyle = 'black';
+      ctx.font = "15px Arial";
+      ctx.fillText(" - Selected color. (1-6 to select a color)", x + 30, y + 15);
+
+      // Draw controls.
+      ctx.fillStyle = 'red';
+      ctx.fillRect(x, y + 60, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.strokeRect(x, y + 60, 20, 20);
+      ctx.fillText(" - A, S Red face", x + 30, y + 60 + 15);
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(x, y + 90, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.strokeRect(x, y + 90, 20, 20);
+      ctx.fillText(" - D, F Blue face", x + 30, y + 90 + 15);
+      ctx.fillStyle = 'orange';
+      ctx.fillRect(x, y + 120, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.strokeRect(x, y + 120, 20, 20);
+      ctx.fillText(" - G, H Orange face", x + 30, y + 120 + 15);
+      ctx.fillStyle = 'green';
+      ctx.fillRect(x, y + 150, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.strokeRect(x, y + 150, 20, 20);
+      ctx.fillText(" - J, K Green face", x + 30, y + 150 + 15);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(x, y + 180, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.strokeRect(x, y + 180, 20, 20);
+      ctx.fillText(" - E, R White face", x + 30, y + 180 + 15);
+      ctx.fillStyle = 'yellow';
+      ctx.fillRect(x, y + 210, 20, 20);
+      ctx.fillStyle = 'black';
+      ctx.strokeRect(x, y + 210, 20, 20);
+      ctx.fillText(" - C, V Yellow face", x + 30, y + 210 + 15);
   }
 
   function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       cube.drawCube(ctx, 10, 10);
       drawLegend(ctx, 300, 10, selected_color);
   }

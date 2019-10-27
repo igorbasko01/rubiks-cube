@@ -89,7 +89,7 @@ class Cube {
 
         for (var i = 0; i < 3; i++) {
             f_right[i][0] = f_combined[cw ? "top" : "bottom"][i];
-            f_left[i][2] = f_combined[cw ? "bottom" : "top"][i];
+            f_left[cw ? i : 2 - i][2] = f_combined[cw ? "bottom" : "top"][i];
         }
 
         if (face % 2 == 0 && face != 4) {
@@ -98,7 +98,8 @@ class Cube {
                 f_bottom[i][face] = f_combined[cw ? "right" : "left"][i];
             }
         } else {
-            f_top[2] = f_combined[cw ? "left" : "right"];
+            var row = f_combined[cw ? "left" : "right"];
+            f_top[2] = cw ? row.reverse() : row;
             f_bottom[0] = f_combined[cw ? "right" : "left"];
         }
     }

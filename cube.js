@@ -87,20 +87,24 @@ class Cube {
         f_combined["bottom"] = face % 2 == 0 && face != 4 ? this.getColumn(f_bottom, face) : f_bottom[0];
         f_combined["left"] = this.getColumn(f_left, 2);
 
-        for (var i = 0; i < 3; i++) {
-            f_right[i][0] = f_combined[cw ? "top" : "bottom"][i];
-            f_left[cw ? i : 2 - i][2] = f_combined[cw ? "bottom" : "top"][i];
-        }
-
         if (face % 2 == 0 && face != 4) {
             for (var i = 0; i < 3; i++) {
-                f_top[i][face] = f_combined[cw ? "left" : "right"][i];
-                f_bottom[i][face] = f_combined[cw ? "right" : "left"][i];
+                f_right[cw ? 2 - i : 2 - i][0] = f_combined[cw ? "top" : "bottom"][i];
+                f_left[i][2] = f_combined[cw ? "bottom" : "top"][i];
+            }
+            for (var i = 0; i < 3; i++) {
+                f_top[cw ? i : 2 - i][face] = f_combined[cw ? "left" : "right"][i];
+                f_bottom[cw ? 2 - i : i][face] = f_combined[cw ? "right" : "left"][i];
             }
         } else {
+            for (var i = 0; i < 3; i++) {
+                f_right[cw ? i : 2 - i][0] = f_combined[cw ? "top" : "bottom"][i];
+                f_left[cw ? i : 2 - i][2] = f_combined[cw ? "bottom" : "top"][i];
+            }
             var row = f_combined[cw ? "left" : "right"];
             f_top[2] = cw ? row.reverse() : row;
-            f_bottom[0] = f_combined[cw ? "right" : "left"];
+            var row = f_combined[cw ? "right" : "left"];
+            f_bottom[0] = cw ? row.reverse(): row;
         }
     }
 

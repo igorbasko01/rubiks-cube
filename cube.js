@@ -76,9 +76,10 @@ class Cube {
             var f_right = face + 1 < 4 ? this.cube[face + 1] : this.cube[0];
             var f_top = this.cube[4];
             var f_bottom = this.cube[5];
-            f_combined["top"] = face % 2 == 0 ? this.getColumn(f_top, face) : f_top[3 - face];
+            f_combined["top"] = face % 2 == 0 ? this.getColumn(f_top, face) : Array.from(f_top[3 - face]);
             f_combined["right"] = this.getColumn(f_right, 0);
-            f_combined["bottom"] = face % 2 == 0 ? this.getColumn(f_bottom, face) : f_bottom[3 - face];
+            f_combined["bottom"] = face % 2 == 0 ? this.getColumn(f_bottom, face) :
+                Array.from(f_bottom[face - 1]);
             f_combined["left"] = this.getColumn(f_left, 2);
 
             if (face == 0) { // Red face
@@ -87,6 +88,24 @@ class Cube {
                     f_bottom[cw ? i : 2-i][0] = f_combined[cw ? "right" : "left"][i];
                     f_left[2-i][2] = f_combined[cw ? "bottom" : "top"][i];
                     f_top[cw ? 2-i : i][0] = f_combined[cw ? "left" : "right"][i];
+                }
+            } else if (face == 1) { // Blue face
+                for (var i = 0; i < 3; i++) {
+                    f_right[cw ? i : 2-i][0] = f_combined[cw ? "top" : "bottom"][i];
+                    f_bottom[0][cw ? 2-i : i] = f_combined[cw ? "right" : "left"][i];
+                    f_left[cw ? i : 2-i][2] = f_combined[cw ? "bottom" : "top"][i];
+                    f_top[2][cw ? 2-i : i] = f_combined[cw ? "left" : "right"][i];
+                }
+            } else if (face == 2) { // Orange face
+                for (var i = 0; i < 3; i++) {
+                    f_right[2-i][0] = f_combined[cw ? "top" : "bottom"][i];
+                    f_bottom[cw ? 2-i : i][2] = f_combined[cw ? "right" : "left"][i];
+                    f_left[i][2] = f_combined[cw ? "bottom" : "top"][i];
+                    f_top[cw ? i : 2-i][2] = f_combined[cw ? "left" : "right"][i];
+                }
+            } else if (face == 3) { // Green face
+                // TODO: Need to finish it. 
+                for (var i = 0; i < 3; i++) {
                 }
             }
             

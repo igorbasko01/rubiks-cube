@@ -104,15 +104,13 @@ class Cube {
                     f_top[cw ? i : 2-i][2] = f_combined[cw ? "left" : "right"][i];
                 }
             } else if (face == 3) { // Green face
-                // TODO: Need to finish it. 
                 for (var i = 0; i < 3; i++) {
+                    f_right[cw ? 2-i : i][0] = f_combined[cw ? "top" : "bottom"][i];
+                    f_bottom[2][cw ? i : 2-i] = f_combined[cw ? "right" : "left"][i];
+                    f_left[cw ? 2-i : i][2] = f_combined[cw ? "bottom" : "top"][i];
+                    f_top[0][cw ? i : 2-i] = f_combined[cw ? "left" : "right"][i];
                 }
             }
-            
-            if (cw) {
-            } else {
-            }
-            
         } else { // Handle the top and bottom faces.
             var f_left = this.cube[0];
             var f_right = this.cube[2];

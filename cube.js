@@ -1,6 +1,4 @@
 class Cube {
-
-    // TODO: Function for setting specific color.
     
     constructor() {
         this.colors = ['red', 'blue', 'orange', 'green', 'white', 'yellow'];
@@ -17,7 +15,6 @@ class Cube {
                 cube[f][r] = [];
                 for (var c = 0; c < 3; c++) {
                     cube[f][r][c] = this.colors[f];
-                    // cube[f][r][c] = this.colors[Math.floor(Math.random()*6)];
                 }
             }
         }

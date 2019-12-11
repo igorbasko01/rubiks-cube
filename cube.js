@@ -116,10 +116,17 @@ class Cube {
             var f_right = this.cube[2];
             var f_top = face == 4 ? this.cube[3] : this.cube[1];
             var f_bottom = face == 4 ? this.cube[1] : this.cube[3];
-            f_combined["top"] = face == 4 ? f_top[0] : f_top[2];
-            f_combined["bottom"] = face == 4 ? f_bottom[0] : f_bottom[2];
-            f_combined["right"] = face == 4 ? f_right[0] : f_right[2];
-            f_combined["left"] = face == 4 ? f_left[0] : f_left[2];
+            f_combined["top"] = Array.from(f_top[face == 4 ? 0 : 2]);
+            f_combined["bottom"] = Array.from(f_bottom[face == 4 ? 0 : 2]);
+            f_combined["right"] = Array.from(f_right[face == 4 ? 0 : 2]); 
+            f_combined["left"] = Array.from(f_left[face == 4 ? 0 : 2]);
+
+            for (var i = 0; i < 3; i++) {
+                f_right[face == 4 ? 0 : 2][i] = f_combined[cw ? "top" : "bottom"][i];
+                f_bottom[face == 4 ? 0 : 2][i] = f_combined[cw ? "right" : "left"][i];
+                f_left[face == 4 ? 0 : 2][i] = f_combined[cw ? "bottom" : "top"][i];
+                f_top[face == 4 ? 0 : 2][i] = f_combined[cw ? "left" : "right"][i];
+            }
         }
     }
 

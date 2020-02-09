@@ -2,14 +2,16 @@ class Cube {
     
     constructor() {
         this.colors = ['red', 'blue', 'orange', 'green', 'white', 'yellow'];
-        this.cube = this.initCube();
+        this.NUM_FACES = 6;
         this.CELL_SIZE = 20;
         this.FACE_SIZE = this.CELL_SIZE * 3;
+
+        this.cube = this.initCube();
     }
 
     initCube() {
         var cube = [];
-        for (var f = 0; f < 6; f++) {
+        for (var f = 0; f < this.NUM_FACES; f++) {
             cube[f] = [];
             for (var r = 0; r < 3; r++) {
                 cube[f][r] = [];
@@ -151,6 +153,14 @@ class Cube {
                 return;  // Don't change center cell.
 
             this.cube[f][i][j] = color;
+        }
+    }
+
+    shuffle(num_rotations = 50) {
+        for (let i = 0; i < num_rotations; i++) {
+            let cw = Math.round(Math.random()) == 0 ? false : true;
+            let face = Math.floor(Math.random() * this.NUM_FACES);
+            this.rotateFace(face, cw);
         }
     }
 }

@@ -61,6 +61,9 @@
           case "KeyV":
           cube.rotateFace(5, true);
           break;
+          case "KeyP":
+          cube.shuffle();
+          break;
       }
 
       draw();
@@ -121,6 +124,8 @@
       ctx.fillStyle = 'black';
       ctx.strokeRect(x, y + 210, 20, 20);
       ctx.fillText(" - C, V Yellow face", x + 30, y + 210 + 15);
+
+      ctx.fillText(" - P - Shuffle cube", x + 30, y + 240 + 15);
   }
 
   function draw() {

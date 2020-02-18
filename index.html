@@ -1,4 +1,13 @@
-<canvas id="canvas" width="800" height="800"></canvas>
+<table>
+    <tr>
+        <td>
+            <canvas id="canvas" width="800" height="800"></canvas>
+        </td>
+        <td valign="top">
+            <textarea id="mvmnt-log" rows="50" cols="40" disabled></textarea>
+        </td>
+    </tr>
+</table>
 
 <script type="text/javascript" src="cube.js"></script>
 <script>
@@ -6,6 +15,13 @@
   //TODO: Add moves logging, download.
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+  const log = document.getElementById("mvmnt-log");
+  const shuffleRotations = 3;
+  var moveCnt = 0;
+
+  const eventKeyRotation = {KeyA: [0, false], KeyS: [0, true], KeyD: [1, false], KeyF: [1, true], KeyG: [2, false],
+  KeyH: [2, true], KeyJ: [3, false], KeyK: [3, true], KeyE: [4, false], KeyR: [4, true], KeyC: [5, false],
+  KeyV: [5, true]}
 
   const cube = new Cube();
   var selected_color = 'red';
@@ -26,43 +42,29 @@
           selected_color = cube.colors[Number(event.code.slice(-1))-1];
           break;
           case "KeyA":
-          cube.rotateFace(0, false);
-          break;
           case "KeyS":
-          cube.rotateFace(0, true);
-          break;
           case "KeyD":
-          cube.rotateFace(1, false);
-          break;
           case "KeyF":
-          cube.rotateFace(1, true);
-          break;
           case "KeyG":
-          cube.rotateFace(2, false);
-          break;
           case "KeyH":
-          cube.rotateFace(2, true);
-          break;
           case "KeyJ":
-          cube.rotateFace(3, false);
-          break;
           case "KeyK":
-          cube.rotateFace(3, true);
-          break;
           case "KeyE":
-          cube.rotateFace(4, false);
-          break;
           case "KeyR":
-          cube.rotateFace(4, true);
-          break;
           case "KeyC":
-          cube.rotateFace(5, false);
-          break;
           case "KeyV":
-          cube.rotateFace(5, true);
+          let [face, cw] = eventKeyRotation[event.code];
+          cube.rotateFace(face, cw);
+          moveCnt++;
+          addLog(`${moveCnt}: Rotation ${cw ? "CW" : "CCW"} of ${cube.colors[face]} face`)
           break;
           case "KeyP":
-          cube.shuffle();
+          addLog("Shuffling...");
+          cube.shuffle(shuffleRotations);
+          addLog("Done Shuffling!");
+          break;
+          case "KeyB":
+          addLog("------------------------------");
           break;
       }
 
@@ -125,12 +127,17 @@
       ctx.strokeRect(x, y + 210, 20, 20);
       ctx.fillText(" - C, V Yellow face", x + 30, y + 210 + 15);
 
-      ctx.fillText(" - P - Shuffle cube", x + 30, y + 240 + 15);
+      ctx.fillText(` - P - Shuffle cube (${shuffleRotations} rotations)`, x + 30, y + 240 + 15);
+      ctx.fillText(" - B - Log Break Line", x + 30, y + 270 + 15);
   }
 
   function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       cube.drawCube(ctx, 10, 10);
       drawLegend(ctx, 300, 10, selected_color);
+  }
+
+  function addLog(text) {
+    log.value = `${text}\n` + log.value
   }
 </script>
